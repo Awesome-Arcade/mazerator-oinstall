@@ -1,43 +1,99 @@
-::[Bat To Exe Converter]
-::
-::YAwzoRdxOk+EWAjk
-::fBw5plQjdCyDJGyX8VAjFDBVQA2MAE+1BaAR7ebv/Nagq1k1QeADdY7B36aPNO8B1mznepg+6ntKiMIPAxUWdxGkDg==
-::YAwzuBVtJxjWCl3EqQJgSA==
-::ZR4luwNxJguZRRnk
-::Yhs/ulQjdF+5
-::cxAkpRVqdFKZSjk=
-::cBs/ulQjdF+5
-::ZR41oxFsdFKZSTk=
-::eBoioBt6dFKZSDk=
-::cRo6pxp7LAbNWATEpSI=
-::egkzugNsPRvcWATEpSI=
-::dAsiuh18IRvcCxnZtBJQ
-::cRYluBh/LU+EWAnk
-::YxY4rhs+aU+JeA==
-::cxY6rQJ7JhzQF1fEqQJQ
-::ZQ05rAF9IBncCkqN+0xwdVs0
-::ZQ05rAF9IAHYFVzEqQJQ
-::eg0/rx1wNQPfEVWB+kM9LVsJDGQ=
-::fBEirQZwNQPfEVWB+kM9LVsJDGQ=
-::cRolqwZ3JBvQF1fEqQJQ
-::dhA7uBVwLU+EWDk=
-::YQ03rBFzNR3SWATElA==
-::dhAmsQZ3MwfNWATElA==
-::ZQ0/vhVqMQ3MEVWAtB9wSA==
-::Zg8zqx1/OA3MEVWAtB9wSA==
-::dhA7pRFwIByZRRnk
-::Zh4grVQjdCyDJGyX8VAjFDBVQA2MAE+1BaAR7ebv/Nagq1k1QeADdY7B36aPNO8B1kr3cII4xigUndMJbA==
-::YB416Ek+ZG8=
-::
-::
-::978f952a14a936cc963da21a135fa983
 @echo off
 
-curl "https://gitlab.com/api/v4/projects/18898692/repository/files/Online Installer.bat/raw?ref=master" --output "Online Installer.bat"
+echo Welcome to the online installer! To start, please choose an install method:
+echo [20200502] Nightly 20200502 [20200428] Nightly 20200428 [20200420] Nightly 20200420 [20200410] Nightly 20200410 [20200328] Nightly 20200328 [20200321] Nightly 20200321
+set /P version="Choose a version [20200502]: "
 cls
-cmd /c "Online Installer.bat"
-del "Online Installer.bat"
+if [%version%]==[] goto 20200502
+if %version%==20200502 goto 20200502
+
+:20200502
+echo Select an install method:
+echo [7z] 7zip file (Will also download 7za to extract) (127mb) [exe] Installer (Requires admin) (145mb) [zip] Zip File (Will also download 7za to extract) (187mb) [port] Portable version (137mb)
+set /P install="Choose a method [7z]: "
 cls
+if [%install%]==[] goto 202005027z
+if %install%==7z goto 202005027z
+if %install%==exe goto 20200502exe
+if %install%==zip goto 20200502zip
+if %install%==port goto 20200502port
+
+:202005027z
+set /P location="Where would you like to put it. Please note that directory must exist EXCEPT if you're using the default one. Also note that Mazerator 20200502 WILL be added at the end (except if kept blank) [C:\Mazerator\Mazerator 20200502\]: "
+cls
+if [%location%]==[] goto 202005027zB
+goto 20200527zI
+
+:202005027zB
+cd C:\
+mkdir Mazerator
+cd Mazerator
+cls
+curl -LJO https://github.com/Awesome-Arcade/Mazerator-old/releases/download/Nightly-20200502/Mazerator.20200502.7z
+cls
+curl -LJO https://github.com/Awesome-Arcade/mazerator-oinstall/raw/master/7za.exe --output 7za.exe
+7za e Mazerator.20200502.7z -spf
+del 7za.exe
+del Mazerator.20200502.7z
+exit
+
+:20200527zI
+cd %location%
+cls
+curl -LJO https://github.com/Awesome-Arcade/Mazerator-old/releases/download/Nightly-20200502/Mazerator.20200502.7z
+cls
+curl -LJO https://github.com/Awesome-Arcade/mazerator-oinstall/raw/master/7za.exe --output 7za.exe
+7za e Mazerator.20200502.7z -spf
+del 7za.exe
+del Mazerator.20200502.7z
+exit
+
+:20200502exe
+cd /D %temp%
+cls
+curl -LJO https://github.com/Awesome-Arcade/Mazerator-old/releases/download/Nightly-20200502/Mazerator.20200502.exe
+start Mazerator.20200502.exe
+del Mazerator.20200502.exe
+exit
+
+:20200502zip
+set /P location="Where would you like to put it. Please note that directory must exist EXCEPT if you're using the default one. Also note that Mazerator 20200502 WILL be added at the end (except if kept blank) [C:\Mazerator\Mazerator 20200502\]: "
+cls
+if [%location%]==[] goto 20200502zipB
+goto 2020052zipI
+
+:20200502zipB
+cd C:\
+mkdir Mazerator
+cd Mazerator
+cls
+curl -LJO https://github.com/Awesome-Arcade/Mazerator-old/releases/download/Nightly-20200502/Mazerator.20200502.zip
+cls
+curl -LJO https://github.com/Awesome-Arcade/mazerator-oinstall/raw/master/7za.exe --output 7za.exe
+7za e Mazerator.20200502.zip -spf
+del 7za.exe
+del Mazerator.20200502.zip
+exit
+
+:2020052zipI
+cd %location%
+cls
+curl -LJO https://github.com/Awesome-Arcade/Mazerator-old/releases/download/Nightly-20200502/Mazerator.20200502.zip
+cls
+curl -LJO https://github.com/Awesome-Arcade/mazerator-oinstall/raw/master/7za.exe --output 7za.exe
+7za e Mazerator.20200502.zip -spf
+del 7za.exe
+del Mazerator.20200502.zip
+exit
+
+:20200502port
+cd /D %temp%
+cls
+curl -LJO https://github.com/Awesome-Arcade/Mazerator-old/releases/download/Nightly-20200502/MazeratorNightlyPortable_Nightly_20200502_English.paf.exe
+start MazeratorNightlyPortable_Nightly_20200502_English.paf.exe
+del MazeratorNightlyPortable_Nightly_20200502_English.paf.exe
+exit
+
 echo Thank you for installing Mazerator! Press any key to exit
 pause >NUL
 exit
